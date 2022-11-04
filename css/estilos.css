@@ -53,34 +53,23 @@ main {
   padding-left: 30px;
 }
 
-.pie {
-  grid-area: d;
+#mapa{
+  float:left;
+  width:50%;
+}
+
+footer {
+  float:left;
+  width:100%;
   margin-top: 20px;
-  background-color: white;
   text-align: center;
   font-size: 15px;
   font-style: italic;
-  padding: 0px;
-  border-top: solid 1px black;
+  border-top: solid 1px #6c25be;
 }
 
-input,
-#cerrar_navegador {
+input, label {
   font-size: 20px;
-}
-
-#reiniciar {
-  display: flex;
-  justify-content: center;
-  padding: 0px;
-}
- 
-#cajaTexto{
-  margin:50px;
-  width: auto; 
-  height: 60%;
-  border: 1px solid rgb(45, 8, 194);
-  font-size: 40px;
 }
 
 nav{
@@ -102,28 +91,6 @@ nav input {
   background-position-x: 10px;
 }
 
-#grabar{
-  background-image: url(../images/record.png);
-}
 
-#reproducir{
-  background-image: url(../images/play.png);
-}
 
-#parar{
-  background-image: url(../images/stop.png);
-}
 
-#contenedorTexto {
-  overflow: scroll; ;
-  padding:20px;
-  border: 2px solid green;
-  color:blue;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-family: Verdana;
-  font-size: 17px;
-  font-weight: bold;
-  height: 300px;
-  background-color: white;
-}
