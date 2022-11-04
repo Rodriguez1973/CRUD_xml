@@ -45,17 +45,30 @@ body{
   top: 50%;
 }
 
+#principal{
+  margin:10px;
+}
+
 main {
+  box-sizing: border-box;
   background: #2596be;
   float:left;
   width:50%;
-  margin: 0;
-  padding-left: 30px;
+  margin: 0 0 15px 0;
+  padding: 0 30px;
+  height: 415px;
 }
 
 #mapa{
-  float:left;
+  box-sizing: border-box;
+  float:right;
   width:50%;
+  height: 415px;
+  border: 2px solid black;
+  float:left;
+  margin: 0 0 15px 0;
+  padding: 2px;
+  background-color: black;
 }
 
 footer {
@@ -68,29 +81,64 @@ footer {
   border-top: solid 1px #6c25be;
 }
 
-input, label {
-  font-size: 20px;
+input, label, button {
+  font-size: 16px;
+}
+
+main label,h3{
+ color:white
+}
+
+main input, select, button{
+  margin:10px 10px;
+}
+
+#controles{
+  height: auto;
+  background-color: #6c25be;
 }
 
 nav{
-  display: flex;
-  justify-content: center;
+  display: inline;
+  justify-content: left;
 }
 
-nav input {
+nav h3{
+  display:inline-flex;
+  color: white;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+nav input,button{
   margin: 20px;
-  background-color: rgb(179, 177, 177);
   text-align: center;
   font-size: 15px;
-  border-radius: 20px;
-  width: 160px;
-  height:40px;
+  width: auto;
+  height:30px;
   font-weight: bold;
-  background-repeat: no-repeat;
-  background-position-y: center;
-  background-position-x: 10px;
+  box-shadow: 2px 2px 2px 1px #2596be;
 }
 
+.div_padre {
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+}
 
+.div_padre input[type=file] {
+  left: 0;
+  top: 0;
+  opacity: 0;
+  position: absolute;
+}
 
+#notificaciones{
+  display: flex;
+  width:100%;
+  background-color: white;
+  height: 50px;
+  margin: 10px 0;
+  border: 2px solid #bea925;
+}
 
