@@ -1,0 +1,129 @@
+/* Proyecto realizado por: José A. Rodríguez López-->
+ * Fecha: 10/10/2022
+ */
+
+body{
+  box-sizing: border-box;
+}
+
+.cabecera {
+  margin: 10px;
+}
+
+#titulo {
+  display: flex;
+  flex-direction: row;
+  font-size: larger;
+  background-color: #bea925;
+  padding: 15px 0px;
+}
+
+#titulo .imagen {
+  width:25%;
+  padding: 15px auto;
+  margin: 0;
+}
+
+.imagen img{
+  display: flex;
+  width:200px;
+}
+
+#titulo #img1{
+  float:right;
+}
+
+#titulo #img2{
+  float:left;
+}
+
+#tit_principal {
+  width: 50%;
+  text-decoration: underline;
+  text-align: center;
+  margin: 0px;
+  top: 50%;
+}
+
+main {
+  background: #2596be;
+  float:left;
+  width:50%;
+  margin: 0;
+  padding-left: 30px;
+}
+
+.pie {
+  grid-area: d;
+  margin-top: 20px;
+  background-color: white;
+  text-align: center;
+  font-size: 15px;
+  font-style: italic;
+  padding: 0px;
+  border-top: solid 1px black;
+}
+
+input,
+#cerrar_navegador {
+  font-size: 20px;
+}
+
+#reiniciar {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+}
+ 
+#cajaTexto{
+  margin:50px;
+  width: auto; 
+  height: 60%;
+  border: 1px solid rgb(45, 8, 194);
+  font-size: 40px;
+}
+
+nav{
+  display: flex;
+  justify-content: center;
+}
+
+nav input {
+  margin: 20px;
+  background-color: rgb(179, 177, 177);
+  text-align: center;
+  font-size: 15px;
+  border-radius: 20px;
+  width: 160px;
+  height:40px;
+  font-weight: bold;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 10px;
+}
+
+#grabar{
+  background-image: url(../images/record.png);
+}
+
+#reproducir{
+  background-image: url(../images/play.png);
+}
+
+#parar{
+  background-image: url(../images/stop.png);
+}
+
+#contenedorTexto {
+  overflow: scroll; ;
+  padding:20px;
+  border: 2px solid green;
+  color:blue;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: Verdana;
+  font-size: 17px;
+  font-weight: bold;
+  height: 300px;
+  background-color: white;
+}

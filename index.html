@@ -1,0 +1,72 @@
+<!--Proyecto realizado por: José A. Rodríguez López-->
+<!--Fecha: 18/10/2022-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD XML</title>
+  <link rel="stylesheet" href="./css/estilos.css">
+  <script src="./js/index.js" defer></script>
+</head>
+
+<body>
+  <!--Encabezado de la página web-->
+  <header class="cabecera">
+    <div id="titulo">
+      <div class="imagen"><img id="img1" src="./images/CRUD.jpg" alt="CRUD.jpg" title="CRUD"></div>
+      <div id="tit_principal">
+        <h1>CRUD XML</h1>
+      </div>
+      <div class="imagen"><img id="img2" src="./images/CRUD.jpg" alt="CRUD.jpg" title="CRUD"></div>
+    </div>
+
+    <nav>
+      <p>Operaciones sobre registros:</p>
+      <input type="button" id="crear" value="Crear">
+      <input type="button" id="siguiente" value="Siguiente">
+      <input type="button" id="anterior" value="Anterior">
+      <input type="button" id="modificar" value="Modificar">
+      <input type="button" id="borrar" value="Borrar">
+      <input type="button" id="tabla" value="Tabla">
+    </nav>
+  </header>
+
+  <div id="principal">
+    <!--Contenedor datos-->
+    <main id="datos">
+      <h3>Registro semáforo</h3>
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="direcccion" value="">
+      <br>
+      <label for="latitud">Latitud:</label>
+      <input type="text" id="latitud" name="latitud" value="">
+      <br>
+      <label for="longitud">Longitud:</label>
+      <input type="text" id="longitud" name="longitud" value="">
+      <br>
+      <label for="averiado">¿Averiado?</label>
+      <input type="text" id="averiado" name="averiado" value="">
+      <br>
+      <label for="f_mantenimiento">Fecha último mantenimiento:</label>
+      <input type="date" id="f_mantenimiento" name="f_mantenimiento" value="">
+      <br>
+      <p>Área de notificaciones</p>
+      <div id="notificaciones"></div>
+    </main>
+  </div>
+  <div id="mapa"></div>
+  <!--Contenedor tabla-->
+  <div id="tabla"></div>
+
+  <!--Pie de página-->
+  <footer class="pie">
+    <p>Desarrollo de aplicaciones Web(DAW) &copy; CIFP Santa Catalina</p>
+    <p>Realizado por: José A. Rodríguez López.</p>
+  </footer>
+</body>
+
+</html>
