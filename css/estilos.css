@@ -134,11 +134,20 @@ nav input,button{
 }
 
 #notificaciones{
-  display: flex;
   width:100%;
+  display: flex;
+  justify-content: center;
   background-color: white;
   height: 50px;
   margin: 10px 0;
   border: 2px solid #bea925;
 }
+
+#notificaciones p{
+  color:red;
+  justify-content: center;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 

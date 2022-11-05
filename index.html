@@ -1,5 +1,5 @@
 <!--Proyecto realizado por: José A. Rodríguez López-->
-<!--Fecha: 18/10/2022-->
+<!--Fecha: 05/11/2022-->
 
 <!DOCTYPE html>
 <html lang="es">
@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRUD XML</title>
   <link rel="stylesheet" href="./css/estilos.css">
+  <script src="./js/datos.js"></script>
   <script src="./js/index.js" defer></script>
 </head>
 
@@ -26,18 +27,18 @@
     <div id="controles">
       <nav>
         <h3>Operaciones registros:</h3>
-        <input type="button" id="crear" value="Crear">
+        <input type="button" id="nuevo" value="Nuevo">
         <input type="button" id="siguiente" value="Siguiente">
         <input type="button" id="anterior" value="Anterior">
         <input type="button" id="modificar" value="Modificar">
         <input type="button" id="borrar" value="Borrar">
-        <input type="button" id="tabla" value="Tabla"><br>
+        <input type="button" id="mostrar_tabla" value="mostrar_tabla"><br>
         <div id="datos_cargar">
           <h3>Datos a cargar:</h3>
-          <input type="button" id="cargar" value="Datos por defecto">
+          <input type="button" id="datos_defecto" value="Datos por defecto">
           <div class="div_padre">
             <button class="boton">Elegir fichero</button>
-            <input type="file" name="ficheros" id="ficheros">
+            <input type="file" name="datos_fichero" id="datos_ficheros">
           </div>
         </div>
       </nav>
@@ -59,9 +60,8 @@
       <br>
       <label for="averiado">¿Averiado?</label>
       <select name="averiado" id="averiado">
-        <option value=""></option>
-        <option value="true">Si</option>
-        <option value="false">No</option>
+        <option value="No">No</option>
+        <option value="Si">Si</option>
       </select>
       <br>
       <label for="f_mantenimiento">Fecha último mantenimiento:</label>
