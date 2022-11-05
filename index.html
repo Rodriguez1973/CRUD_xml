@@ -10,7 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRUD XML</title>
   <link rel="stylesheet" href="./css/estilos.css">
+  <!--Script con los datos por defecto-->
   <script src="./js/datos.js"></script>
+  <!-- Script de la api de Google Maps-->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClxE0ayXHJP7BhRDk-xWf1M77YUVk5pBY&libraries=geometry"></script>
+  <!--Script con las funciones de Google Maps-->
+  <script src="./js/funciones.js" defer></script> -->
   <script src="./js/index.js" defer></script>
 </head>
 
@@ -27,7 +32,7 @@
     <div id="controles">
       <nav>
         <h3>Operaciones registros:</h3>
-        <input type="button" id="nuevo" value="Nuevo">
+        <input type="button" id="guardar" value="Guardar">
         <input type="button" id="siguiente" value="Siguiente">
         <input type="button" id="anterior" value="Anterior">
         <input type="button" id="modificar" value="Modificar">
@@ -45,35 +50,37 @@
     </div>
   </header>
 
-  <div id="principal">
+  <div id="div_principal">
     <!--Contenedor datos-->
     <main id="datos">
       <h3>Registro semáforo</h3>
-      <label for="direccion">Dirección:</label>
-      <input type="text" id="direccion" name="direcccion" value="">
+      <label for="iDireccion">Dirección:</label>
+      <input type="text" id="iDireccion" name="direcccion" value="">
       <br>
-      <label for="latitud">Latitud:</label>
-      <input type="text" id="latitud" name="latitud" value="">
+      <label for="iLatitud">Latitud:</label>
+      <input type="text" id="iLatitud" name="iLatitud" value="">
       <br>
-      <label for="longitud">Longitud:</label>
-      <input type="text" id="longitud" name="longitud" value="">
+      <label for="iLongitud">Longitud:</label>
+      <input type="text" id="iLongitud" name="iLongitud" value="">
       <br>
-      <label for="averiado">¿Averiado?</label>
-      <select name="averiado" id="averiado">
+      <label for="iAveriado">¿Averiado?</label>
+      <select name="iAveriado" id="iAveriado">
         <option value="No">No</option>
         <option value="Si">Si</option>
       </select>
       <br>
-      <label for="f_mantenimiento">Fecha último mantenimiento:</label>
-      <input type="date" id="f_mantenimiento" name="f_mantenimiento" value="">
+      <label for="iF_mantenimiento">Fecha último mantenimiento:</label>
+      <input type="date" id="iF_mantenimiento" name="iF_mantenimiento" value="">
       <br>
       <h3>Área de notificaciones</h3>
-      <div id="notificaciones"></div>
+      <div id="div_notificaciones"></div>
     </main>
-    <div id="mapa"></div>
+    <div id="div_mapa"></div>
   </div>
   <!--Contenedor tabla-->
-  <div id="tabla" hidden></div>
+  <div id="tabla" hidden>
+    <table></table>
+  </div>
   <!--Pie de página-->
   <footer>
     <p>Desarrollo de aplicaciones Web(DAW) &copy; CIFP Santa Catalina</p>
