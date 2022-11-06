@@ -4,6 +4,7 @@ Fecha: 05/11/2022
 
 let semaforos = new Array() //Crea un array para registrar los semáforos.
 let indice //Lleva el indice del array del objeto que estamos visualizando en la interfaz.
+let coordenadasValidas = true //Flag para controlar si las coordenadas son válidas con el fin de poner el marcador en el mapa.
 
 //-------------------------------------------------------------------------------------------------
 //Cuando finaliza la carga del documento se cargan los datos por defecto (datos.js).
@@ -31,7 +32,7 @@ bSiguiente.addEventListener('click', registroSiguiente, false) //Evento click al
 bAnterior.addEventListener('click', registroAnterior, false) //Evento click al pulsar botón anterior.
 bModificar.addEventListener('click', registroModificar, false) //Evento click al pulsar el botón modificar.
 bBorrar.addEventListener('click', registroBorrar, false) //Evento click al pulsar el botón borrar.
-bTabla.addEventListener('click', mostrarTabla, false)  //Evento click al pulsar el botón mostrar tabla.
+bTabla.addEventListener('click', mostrarTabla, false) //Evento click al pulsar el botón mostrar tabla.
 bDatos_defecto.addEventListener('click', cargarDatosDefecto, false) //Evento click al pulsar el botón datos por defecto.
 bFichero.addEventListener('change', cargarDatosFichero, false) //Evento click al pulsar el botón elegir fichero.
 
@@ -105,7 +106,8 @@ function cargaDatosXml(datos = null) {
   } catch (Exception) {
     indice = 0
     vaciarCampos()
-    div_notificaciones.innerHTML = '<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
+    div_notificaciones.innerHTML =
+      '<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
   }
 }
 
@@ -119,7 +121,9 @@ function vaciarCampos() {
   iF_mantenimiento.value = obtenerFechaActual()
   latitud = 41.670141205551865 //Latitud de inicio de centrado del mapa.
   longitud = -3.689933230224045 //Longitud de inicio de centrado del mapa.
+  coordenadasValidas = false //Cambia flag para que no muestre el marcador en el mapa.
   mostrarMapa() //Muestra el mapa centrado en las coordenadas por defecto.
+  coordenadasValidas = true //Restablece el marcador en el mapa.
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -138,7 +142,7 @@ function visualiza(numRegistro) {
 //-------------------------------------------------------------------------------------------------
 //Función que crea un nuevo registro de un semáforo.
 function crearRegistro() {
-  div_notificaciones.innerHTML = ''
+  borrarNotificaciones()
   try {
     //Crea semáforo.
     let semaforo = new Semaforo(
@@ -178,7 +182,7 @@ function obtenerFechaActual() {
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroSiguiente() {
-  div_notificaciones.innerHTML = ''
+  borrarNotificaciones()
   //Hay semáforos
   if (semaforos.length > 0) {
     indice++
@@ -196,7 +200,7 @@ function registroSiguiente() {
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroAnterior() {
-  div_notificaciones.innerHTML = ''
+  borrarNotificaciones()
   //Hay semáforos
   if (semaforos.length > 0) {
     indice--
@@ -214,28 +218,33 @@ function registroAnterior() {
 //-------------------------------------------------------------------------------------------------
 //Función para modificar un registro.
 function registroModificar() {
-  div_notificaciones.innerHTML = ''
-  try {
-    let semaforo = new Semaforo(
-      semaforos.length,
-      iDireccion.value,
-      iLatitud.value,
-      iLongitud.value,
-      iAveriado.value,
-      iF_mantenimiento.value,
-    )
-    semaforos[indice] = semaforo //Actualiza la lista con las modificaciones del registro.
-    div_notificaciones.innerHTML =
-      '<p>El registro ha sido modificado correctamente.</p>'
-  } catch (Exception) {
-    div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
+  borrarNotificaciones()
+  //Existen registros de semaforos.
+  if (semaforos.length > 0) {
+    try {
+      let semaforo = new Semaforo(
+        semaforos.length,
+        iDireccion.value,
+        iLatitud.value,
+        iLongitud.value,
+        iAveriado.value,
+        iF_mantenimiento.value,
+      )
+      semaforos[indice] = semaforo //Actualiza la lista con las modificaciones del registro.
+      div_notificaciones.innerHTML =
+        '<p>El registro ha sido modificado correctamente.</p>'
+    } catch (Exception) {
+      div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
+    }
+  } else {
+    div_notificaciones.innerHTML = '<p>No hay registros que modificar.</p>'
   }
 }
 
 //-------------------------------------------------------------------------------------------------
 //Función para borrar un registro.
 function registroBorrar() {
-  div_notificaciones.innerHTML = ''
+  borrarNotificaciones()
   //Existen registros.
   if (semaforos.length > 0) {
     semaforos.splice(indice, 1) //Borra el registro.
@@ -296,55 +305,84 @@ function validarDatos(direccion, latitud, longitud, averiado, f_mantenimiento) {
 //--------------------------------------------------------------------------------------------------
 //Función que muestra la tabla de registros de semáforos.
 function mostrarTabla() {
-  document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
+  borrarNotificaciones()
+  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
   //Si existen semáforos.
   if (semaforos.length > 0) {
-    document.getElementById("tabla").innerHTML = '<tr><th>ID</th>' +
+    document.getElementById('tabla').innerHTML =
+      '<tr><th>ID</th>' +
       '<th>DIRECCION</th>' +
       '<th>LATITUD</th>' +
       '<th>LONGITUD</th>' +
       '<th>AVERIADO</th>' +
-      '<th>FECHA ULTIMO MANTENIMIENTO</th></tr>'; //Titulos de la tabla.
+      '<th>FECHA ULTIMO MANTENIMIENTO</th></tr>' //Titulos de la tabla.
 
     //Bucle que recorre todos los registos incorporando la fila a la table del documento.
     for (i = 0; i < semaforos.length; i++) {
       let semaforo = semaforos[i]
-      document.getElementById("tabla").innerHTML = document.getElementById("tabla").innerHTML +
-        '<tr><td>' + semaforo.id + '</td>' +
-        '<td>' + semaforo.direccion + '</td>' +
-        '<td>' + semaforo.latitud + '</td>' +
-        '<td>' + semaforo.longitud + '</td>' +
-        '<td>' + semaforo.averiado + '</td>' +
-        '<td>' + semaforo.f_mantenimiento + '</td></tr>'
+      document.getElementById('tabla').innerHTML =
+        document.getElementById('tabla').innerHTML +
+        '<tr><td>' +
+        semaforo.id +
+        '</td>' +
+        '<td>' +
+        semaforo.direccion +
+        '</td>' +
+        '<td>' +
+        semaforo.latitud +
+        '</td>' +
+        '<td>' +
+        semaforo.longitud +
+        '</td>' +
+        '<td>' +
+        semaforo.averiado +
+        '</td>' +
+        '<td>' +
+        semaforo.f_mantenimiento +
+        '</td></tr>'
     }
+  } else {
+    div_notificaciones.innerHTML =
+      '<p>No hay elementos que mostrar en la tabla.</p>'
   }
 }
 
 //--------------------------------------------------------------------------------------------------
 //Función que carga los datos por defecto.
 function cargarDatosDefecto() {
-  document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
+  borrarNotificaciones()
+  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
   semaforos = new Array() //Inicializa el array de semáforos.
-  cargaDatosXml(datosDefecto);  //Carga datos por defecto.
+  cargaDatosXml(datosDefecto) //Carga datos por defecto.
 }
 
 //--------------------------------------------------------------------------------------------------
 //Función que permite la carga de datos procedente de un fichero xml.
 function cargarDatosFichero(evt) {
-  document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
+  borrarNotificaciones()
+  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
   semaforos = new Array() //Inicializa el array de semáforos.
-  let ficheros = evt.target.files;  //Objeto FileList con la lista de archivos seleccionados (1 si no contiene el atributo multiple el <input type="file">).
-  let fichero = ficheros[0];  //Primer elemento del objeto FileList.
+  let ficheros = evt.target.files //Objeto FileList con la lista de archivos seleccionados (1 si no contiene el atributo multiple el <input type="file">).
+  let fichero = ficheros[0] //Primer elemento del objeto FileList.
   //Crea el flujo de lectura.
-  let reader = new FileReader();
+  let reader = new FileReader()
   //Necesario para poder seleccionar otro fichero. Elimina el valor de los archivos seleccionados.
   evt.target.value = ''
-   
-  //Añade el evento load al flujo de lectura que se produce cuando el archivo ha sido leído. 
-  reader.addEventListener("loadend", () => {
-    cargaDatosXml(reader.result);  //Carga los datos leídos en formato texto.
-  }, false);
+
+  //Añade el evento load al flujo de lectura que se produce cuando el archivo ha sido leído.
+  reader.addEventListener(
+    'loadend',
+    () => {
+      cargaDatosXml(reader.result) //Carga los datos leídos en formato texto.
+    },
+    false,
+  )
 
   //Lee el fichero como texto.
-  reader.readAsText(fichero);
+  reader.readAsText(fichero)
+}
+
+//--------------------------------------------------------------------------------------------------
+function borrarNotificaciones() {
+  div_notificaciones.innerHTML = ''
 }

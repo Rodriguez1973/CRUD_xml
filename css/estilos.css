@@ -162,6 +162,7 @@ button {
   justify-content: center;
   margin-left: 20px;
   margin-right: 20px;
+  font-weight: bold;
 }
 
 #tabla {

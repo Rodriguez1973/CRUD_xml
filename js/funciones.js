@@ -1,7 +1,7 @@
 let mapa //Referencia del mapa.
 let latitud //Latitud de inicio de centrado del mapa.
 let longitud //Longitud de inicio del centro del mapa.
-let marcadores = new Array();
+let marcadores = new Array()
 
 //--------------------------------------------------------------------------------------------------
 //Función de inicio. Representa el mapa en el contenedor de la interfaz.
@@ -9,13 +9,37 @@ function mostrarMapa() {
   mapa = new google.maps.Map(document.getElementById('div_mapa'), {
     // En el mapa se visualiza el mapa correspondiente a esta latitud, longitud
     center: new google.maps.LatLng(latitud, longitud), //El mapa se visualiza centrado en las coordenadas de latitud y longitud pasadas como argumento
-    zoom: 18, //Zoom del mapa
+    zoom: 17, //Zoom del mapa
     draggableCursor: 'auto', //El nombre o la URL del cursor que se muestra al desplazar el mouse sobre un mapa arrastrable.
     draggingCursor: 'crosshair', //El nombre o la URL del cursor que se muestra cuando se arrastra el mapa.
     mapTypeId: google.maps.MapTypeId.SATELLITE, //Tipo de mapa.
   })
 
-  //----------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
+  //Referencia a un icono. Define sus propiedades.
+  let icono = {
+    url: './images/Marcador_posicion.png', //Imagen del marcador de posición.
+    scaledSize: new google.maps.Size(50, 50), //Tamaño escala.
+    origin: new google.maps.Point(0, 0), //Origen imgen.
+    anchor: new google.maps.Point(25, 50), //Punto de anclaje
+  }
+
+  //Si las coordenadas son válidas muestra el marcador.
+  if(coordenadasValidas){
+  //------------------------------------------------------------------------------------------------
+  //Establece el marcador en el mapa.
+  let marker = new google.maps.Marker({
+    //Posiciona el marcador en la latitud y longitud deseada.
+    position: new google.maps.LatLng(latitud, longitud),
+    icon: icono,
+    map: mapa,
+    nombre: 'Localizador',
+  })
+  //Se añade el marcador para proceder a su borrado.
+  marcadores.push(marker);
+}
+
+  //------------------------------------------------------------------------------------------------
   //Añade escuchador del evento click sobre el mapa
   google.maps.event.addListener(mapa, 'click', function (event) {
     //Dato que contiene la latitud y longitud del punto donde se ha hecho click.
@@ -24,22 +48,13 @@ function mostrarMapa() {
     leerDireccion(dato_latitud_longitud)
 
     //----------------------------------------------------------------------------------------------
-    //Referencia a un icono. Define sus propiedades.
-    let icono = {
-      url: "./images/Marcador_posicion.png", //Imagen del marcador de posición.
-      scaledSize: new google.maps.Size(50, 50), //Tamaño escala.
-      origin: new google.maps.Point(0, 0), //Origen imgen.
-      anchor: new google.maps.Point(25, 50) //Punto de anclaje
-    }
-
-    //-----------------------------------------------------------------------------------------------
     //Establece el marcador en el mapa.
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
       position: event.latLng,
       icon: icono,
       map: mapa,
-      nombre: "Localizador"
-    });
+      nombre: 'Localizador',
+    })
 
     //Borra los marcadores que ya estaban en el mapa.
     borrarMarcadores()
@@ -48,7 +63,7 @@ function mostrarMapa() {
     //Lectura de la direccion.
     //console.log(dato_latitud_longitud)
     leerDireccion(dato_latitud_longitud)
-  });
+  })
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -90,9 +105,9 @@ function mostrarDireccion(latlng, direccion) {
 function borrarMarcadores() {
   // Elimina los marcadores de una consulta anterior
   for (var i = 0; i < marcadores.length; i++) {
-    marcadores[i].setMap(null);
+    marcadores[i].setMap(null)
   }
-  marcadores=new Array()  //Crea una nueva referancia.
+  marcadores = new Array() //Crea una nueva referancia.
 }
 
 //--------------------------------------------------------------------------------------------------
