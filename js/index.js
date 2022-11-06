@@ -84,7 +84,7 @@ function cargaDatosXml(datos = null) {
 
     //Bucle para la creación de cada semáforo en funcion de los datos leídos
     for (var index = 0; index < aDireccion.length; index++) {
-      //Cre
+      //Crea un semáforo.
       let semaforo = new Semaforo(
         index,
         aDireccion.item(index).firstChild.nodeValue,
@@ -99,6 +99,8 @@ function cargaDatosXml(datos = null) {
     //Inicializa el indice de visualización.
     indice = 0
     //Muestra el indice 0 en la interfaz.
+    latitud = semaforos[0].latitud //Latitud de inicio de centrado del mapa.
+    longitud = semaforos[0].longitud //Longitud de inicio de centrado del mapa.
     visualiza(indice)
   } catch (Exception) {
     indice = 0
@@ -115,6 +117,9 @@ function vaciarCampos() {
   iLongitud.value = ''
   iAveriado.value = 'No'
   iF_mantenimiento.value = obtenerFechaActual()
+  latitud = 41.670141205551865 //Latitud de inicio de centrado del mapa.
+  longitud = -3.689933230224045 //Longitud de inicio de centrado del mapa.
+  mostrarMapa() //Muestra el mapa centrado en las coordenadas por defecto.
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -125,6 +130,9 @@ function visualiza(numRegistro) {
   iLongitud.value = semaforos[numRegistro].longitud
   iAveriado.value = semaforos[numRegistro].averiado
   iF_mantenimiento.value = semaforos[numRegistro].f_mantenimiento
+  latitud = semaforos[numRegistro].latitud //Latitud de inicio de centrado del mapa.
+  longitud = semaforos[numRegistro].longitud //Longitud de inicio de centrado del mapa.
+  mostrarMapa() //Muestra el mapa centrado en las coordenadas de ese registro..
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -325,21 +333,18 @@ function cargarDatosDefecto() {
 function cargarDatosFichero(evt) {
   document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
   semaforos = new Array() //Inicializa el array de semáforos.
-  let datosFichero=leerFicheroXml(evt)
-  cargaDatosXml(datosFichero);  //Carga datos leídos de un fichero XML.
-}
-
-//--------------------------------------------------------------------------------------------------
-//Función que realiza la lectura de un fichero XML,
-function leerFicheroXml(evt) {
-  //Array que contine el 
   let ficheros = evt.target.files;  //Objeto FileList con la lista de archivos seleccionados (1 si no contiene el atributo multiple el <input type="file">).
   let fichero = ficheros[0];  //Primer elemento del objeto FileList.
   //Crea el flujo de lectura.
   let reader = new FileReader();
-  //Necesario para poder seleccionar otro fichero.
+  //Necesario para poder seleccionar otro fichero. Elimina el valor de los archivos seleccionados.
   evt.target.value = ''
+   
+  //Añade el evento load al flujo de lectura que se produce cuando el archivo ha sido leído. 
+  reader.addEventListener("loadend", () => {
+    cargaDatosXml(reader.result);  //Carga los datos leídos en formato texto.
+  }, false);
+
   //Lee el fichero como texto.
-  let contenido=reader.readAsText(fichero)
-  return contenido
+  reader.readAsText(fichero);
 }

@@ -1,6 +1,6 @@
 let mapa //Referencia del mapa.
-let latitud = 41.67097948393865 //Latitud de inicio de centrado del mapa.
-let longitud = -3.6769259916763985 //Longitud de inicio del centro del mapa.
+let latitud //Latitud de inicio de centrado del mapa.
+let longitud //Longitud de inicio del centro del mapa.
 let marcadores = new Array();
 
 //--------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ function mostrarMapa() {
     //console.log(dato_latitud_longitud)
     leerDireccion(dato_latitud_longitud)
 
-    //-----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //Referencia a un icono. Define sus propiedades.
     let icono = {
       url: "./images/Marcador_posicion.png", //Imagen del marcador de posición.
@@ -97,4 +97,4 @@ function borrarMarcadores() {
 
 //--------------------------------------------------------------------------------------------------
 //Llamada a la función que muestra el mapa.
-mostrarMapa() //Muestra el mapa.
+//mostrarMapa() //Muestra el mapa.
