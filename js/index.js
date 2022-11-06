@@ -264,14 +264,16 @@ function registroBorrar() {
     try {
       indice--
       visualiza(indice) //Visualiza el indice anterior.
+      div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
     } catch (Exception) {
       //Si salta exception es que no existe el indice anterior.
       try {
         indice++
         visualiza(indice) //Visualiza el indice siguiente.
+        div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
       } catch (Exception) {
         //Si salta exception es que tampoco existe el indice siguiente.
-        div_notificaciones.innerHTML = '<p>No quedan registros en la lista.</p>'
+        div_notificaciones.innerHTML = '<p>Registro borrado correctamente. No quedan registros en la lista.</p>'
         vaciarCampos()
       }
     }
