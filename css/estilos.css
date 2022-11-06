@@ -2,7 +2,7 @@
  * Fecha: 10/10/2022
  */
 
-body{
+body {
   box-sizing: border-box;
 }
 
@@ -19,22 +19,22 @@ body{
 }
 
 #titulo .imagen {
-  width:25%;
+  width: 25%;
   padding: 15px auto;
   margin: 0;
 }
 
-.imagen img{
+.imagen img {
   display: flex;
-  width:200px;
+  width: 200px;
 }
 
-#titulo #img1{
-  float:right;
+#titulo #img1 {
+  float: right;
 }
 
-#titulo #img2{
-  float:left;
+#titulo #img2 {
+  float: left;
 }
 
 #tit_principal {
@@ -45,35 +45,43 @@ body{
   top: 50%;
 }
 
-#div_principal{
-  margin:10px;
+#div_principal {
+  margin: 10px;
 }
 
 main {
   box-sizing: border-box;
   background: #2596be;
-  float:left;
-  width:50%;
+  float: left;
+  width: 50%;
   margin: 0 0 15px 0;
   padding: 0 30px;
   height: 415px;
 }
 
-#div_mapa{
+#iDireccion{
+  width:80%;
+}
+
+#iLatitud, #iLongitud{
+  width:170px;
+}
+
+#div_mapa {
   box-sizing: border-box;
-  float:right;
-  width:50%;
+  float: right;
+  width: 50%;
   height: 415px;
   border: 2px solid black;
-  float:left;
+  float: left;
   margin: 0 0 15px 0;
   padding: 2px;
   background-color: black;
 }
 
 footer {
-  float:left;
-  width:100%;
+  float: left;
+  width: 100%;
   margin-top: 20px;
   text-align: center;
   font-size: 15px;
@@ -81,41 +89,47 @@ footer {
   border-top: solid 1px #6c25be;
 }
 
-input, label, button {
+input,
+label,
+button {
   font-size: 16px;
 }
 
-main label,h3{
- color:white
+main label,
+h3 {
+  color: white
 }
 
-main input, select, button{
-  margin:10px 10px;
+main input,
+select,
+button {
+  margin: 10px 10px;
 }
 
-#controles{
+#controles {
   height: auto;
   background-color: #6c25be;
 }
 
-nav{
+nav {
   display: inline;
   justify-content: left;
 }
 
-nav h3{
-  display:inline-flex;
+nav h3 {
+  display: inline-flex;
   color: white;
   margin-left: 20px;
   margin-bottom: 10px;
 }
 
-nav input,button{
+nav input,
+button {
   margin: 20px;
   text-align: center;
   font-size: 15px;
   width: auto;
-  height:30px;
+  height: 30px;
   font-weight: bold;
   box-shadow: 2px 2px 2px 1px #2596be;
 }
@@ -133,8 +147,8 @@ nav input,button{
   position: absolute;
 }
 
-#div_notificaciones{
-  width:100%;
+#div_notificaciones {
+  width: 100%;
   display: flex;
   justify-content: center;
   background-color: white;
@@ -143,11 +157,34 @@ nav input,button{
   border: 2px solid #bea925;
 }
 
-#div_notificaciones p{
-  color:red;
+#div_notificaciones p {
+  color: red;
   justify-content: center;
   margin-left: 20px;
   margin-right: 20px;
 }
 
+#tabla {
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+#tabla th {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 5px;
+  background-color: #bea925;
+  border: 1px solid black;
+}
+
+#tabla td {
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: #87dbfa;
+  border: 1px solid black;
+}
+
+tr td:nth-child(n+5) {
+  text-align: center;
+}

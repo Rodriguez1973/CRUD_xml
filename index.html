@@ -13,9 +13,9 @@
   <!--Script con los datos por defecto-->
   <script src="./js/datos.js"></script>
   <!-- Script de la api de Google Maps-->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClxE0ayXHJP7BhRDk-xWf1M77YUVk5pBY&libraries=geometry"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeNRBEIWYeWRRvY8On_9pkSD1_J_zLykQ&libraries=geometry"></script>
   <!--Script con las funciones de Google Maps-->
-  <script src="./js/funciones.js" defer></script> -->
+  <script src="./js/funciones.js" defer></script>
   <script src="./js/index.js" defer></script>
 </head>
 
@@ -37,7 +37,7 @@
         <input type="button" id="anterior" value="Anterior">
         <input type="button" id="modificar" value="Modificar">
         <input type="button" id="borrar" value="Borrar">
-        <input type="button" id="mostrar_tabla" value="mostrar_tabla"><br>
+        <input type="button" id="mostrar_tabla" value="Mostrar tabla"><br>
         <div id="datos_cargar">
           <h3>Datos a cargar:</h3>
           <input type="button" id="datos_defecto" value="Datos por defecto">
@@ -78,8 +78,8 @@
     <div id="div_mapa"></div>
   </div>
   <!--Contenedor tabla-->
-  <div id="tabla" hidden>
-    <table></table>
+  <div id="div_tabla">
+    <table id="tabla"></table>
   </div>
   <!--Pie de página-->
   <footer>

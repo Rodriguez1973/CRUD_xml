@@ -1,10 +1,11 @@
 let mapa //Referencia del mapa.
 let latitud = 41.67097948393865 //Latitud de inicio de centrado del mapa.
 let longitud = -3.6769259916763985 //Longitud de inicio del centro del mapa.
+let marcadores = new Array();
 
 //--------------------------------------------------------------------------------------------------
 //Función de inicio. Representa el mapa en el contenedor de la interfaz.
-function inicio() {
+function mostrarMapa() {
   mapa = new google.maps.Map(document.getElementById('div_mapa'), {
     // En el mapa se visualiza el mapa correspondiente a esta latitud, longitud
     center: new google.maps.LatLng(latitud, longitud), //El mapa se visualiza centrado en las coordenadas de latitud y longitud pasadas como argumento
@@ -14,27 +15,39 @@ function inicio() {
     mapTypeId: google.maps.MapTypeId.SATELLITE, //Tipo de mapa.
   })
 
-  //------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
   //Añade escuchador del evento click sobre el mapa
   google.maps.event.addListener(mapa, 'click', function (event) {
     //Dato que contiene la latitud y longitud del punto donde se ha hecho click.
     let dato_latitud_longitud = event.latLng
     //console.log(dato_latitud_longitud)
     leerDireccion(dato_latitud_longitud)
-  })
 
-  //------------------------------------------------------------------------------------------------
-  //Marcador de posición.
-  let icono = {
-    url: "../images/Marcador_position.png", //Imagen del marcador de posición-
-    scaledSize: new google.maps.Size(25, 25), // scaled size
-    origin: new google.maps.Point(0, 0), // origin
-    anchor: new google.maps.Point(0, 0) // anchor
-  };
-  var marker = new google.maps.Marker({
-    position: {lat: 43.542194, lng: -5.676875},
-    map: map,
-title: 'Acuario de Gijón'
+    //-----------------------------------------------------------------------------------------------
+    //Referencia a un icono. Define sus propiedades.
+    let icono = {
+      url: "./images/Marcador_posicion.png", //Imagen del marcador de posición.
+      scaledSize: new google.maps.Size(50, 50), //Tamaño escala.
+      origin: new google.maps.Point(0, 0), //Origen imgen.
+      anchor: new google.maps.Point(0, 0) //Punto de anclaje
+    }
+
+    //-----------------------------------------------------------------------------------------------
+    //Establece el marcador en el mapa.
+    var marker = new google.maps.Marker({
+      position: event.latLng,
+      icon: icono,
+      map: mapa,
+      nombre: "Localizador"
+    });
+
+    //Borra los marcadores que ya estaban en el mapa.
+    borrarMarcadores()
+    //Añade marcador al array de marcadores.
+    marcadores.push(marker)
+    //Lectura de la direccion.
+    //console.log(dato_latitud_longitud)
+    leerDireccion(dato_latitud_longitud)
   });
 }
 
@@ -55,7 +68,7 @@ function leerDireccion(latlng) {
           //Mostramos la dirección
           mostrarDireccion(latlng, results[0].formatted_address)
         } else {
-          alert('Resultado no encontrado')
+          alert('Resultado no encontrado.')
         }
       } else {
         alert('El geocodificador falló debido a:' + status)
@@ -72,6 +85,16 @@ function mostrarDireccion(latlng, direccion) {
   iLongitud.value = latlng.lng()
 }
 
+//--------------------------------------------------------------------------------------------------
+//Función que realiza el borrado de los marcadores. Para poder borrar los marcadores es necesario almacenarlos en un array.
+function borrarMarcadores() {
+  // Elimina los marcadores de una consulta anterior
+  for (var i = 0; i < marcadores.length; i++) {
+    marcadores[i].setMap(null);
+  }
+  marcadores=new Array()  //Crea una nueva referancia.
+}
 
-
-inicio() //Muestra el mapa.
+//--------------------------------------------------------------------------------------------------
+//Llamada a la función que muestra el mapa.
+mostrarMapa() //Muestra el mapa.
