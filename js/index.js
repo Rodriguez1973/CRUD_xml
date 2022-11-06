@@ -13,7 +13,7 @@ window.onload = () => {
 }
 
 //-------------------------------------------------------------------------------------------------
-//Se cren las referencias de los objetos del formulario.
+//Se crean varias referencias de los objetos del formulario.
 const bNuevo = document.getElementById('guardar')
 const bSiguiente = document.getElementById('siguiente')
 const bAnterior = document.getElementById('anterior')
@@ -22,12 +22,15 @@ const bBorrar = document.getElementById('borrar')
 const bTabla = document.getElementById('mostrar_tabla')
 const bDatos_defecto = document.getElementById('datos_defecto')
 const bFichero = document.getElementById('datos_fichero')
+const iDireccion= document.getElementById('iDireccion')
+const iLatitud = document.getElementById("iLatitud")
+const iLongitud = document.getElementById("iLongitud")
 const iAveriado = document.getElementById('iAveriado')
 const iF_mantenimiento = document.getElementById('iF_mantenimiento')
 
 //-------------------------------------------------------------------------------------------------
 //Definición de eventos de los objetos.
-bNuevo.addEventListener('click', crearRegistro, false) //Evento click al pulsar botón crear.
+bNuevo.addEventListener('click', guardarRegistro, false) //Evento click al pulsar botón crear.
 bSiguiente.addEventListener('click', registroSiguiente, false) //Evento click al pulsar botón siguiente.
 bAnterior.addEventListener('click', registroAnterior, false) //Evento click al pulsar botón anterior.
 bModificar.addEventListener('click', registroModificar, false) //Evento click al pulsar el botón modificar.
@@ -35,6 +38,9 @@ bBorrar.addEventListener('click', registroBorrar, false) //Evento click al pulsa
 bTabla.addEventListener('click', mostrarTabla, false) //Evento click al pulsar el botón mostrar tabla.
 bDatos_defecto.addEventListener('click', cargarDatosDefecto, false) //Evento click al pulsar el botón datos por defecto.
 bFichero.addEventListener('change', cargarDatosFichero, false) //Evento click al pulsar el botón elegir fichero.
+iDireccion.addEventListener('click',()=>{iDireccion.select();}, false) //Selecciona todo el contenido de iDireccion al hacer click.
+iLatitud.addEventListener('click',()=>{iLatitud.select();}, false) //Selecciona todo el contenido de iLatitud al hacer click.
+iLongitud.addEventListener('click',()=>{iLongitud.select();}, false) //Selecciona todo el contenido de iLongitud al hacer click.
 
 //-------------------------------------------------------------------------------------------------
 //Clase que modela los objetos de tipo semáforo.
@@ -141,8 +147,9 @@ function visualiza(numRegistro) {
 
 //-------------------------------------------------------------------------------------------------
 //Función que crea un nuevo registro de un semáforo.
-function crearRegistro() {
+function guardarRegistro() {
   borrarNotificaciones()
+  borradoTabla()
   try {
     //Crea semáforo.
     let semaforo = new Semaforo(
@@ -157,6 +164,8 @@ function crearRegistro() {
     semaforos.push(semaforo)
     //Actualiza el indice del elemento que estamos visualizando.
     indice = semaforos.length - 1
+    div_notificaciones.innerHTML = '<p>El registro se ha guardado correctamente.</p>'
+    visualiza(indice)
   } catch (Exception) {
     div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
     if (semaforos.length > 0) {
@@ -183,6 +192,7 @@ function obtenerFechaActual() {
 //Función para visualizar el registro siguiente.
 function registroSiguiente() {
   borrarNotificaciones()
+  borradoTabla()
   //Hay semáforos
   if (semaforos.length > 0) {
     indice++
@@ -201,6 +211,7 @@ function registroSiguiente() {
 //Función para visualizar el registro siguiente.
 function registroAnterior() {
   borrarNotificaciones()
+  borradoTabla()
   //Hay semáforos
   if (semaforos.length > 0) {
     indice--
@@ -219,11 +230,12 @@ function registroAnterior() {
 //Función para modificar un registro.
 function registroModificar() {
   borrarNotificaciones()
+  borradoTabla()
   //Existen registros de semaforos.
   if (semaforos.length > 0) {
     try {
       let semaforo = new Semaforo(
-        semaforos.length,
+        semaforos[indice].id,
         iDireccion.value,
         iLatitud.value,
         iLongitud.value,
@@ -245,6 +257,7 @@ function registroModificar() {
 //Función para borrar un registro.
 function registroBorrar() {
   borrarNotificaciones()
+  borradoTabla()
   //Existen registros.
   if (semaforos.length > 0) {
     semaforos.splice(indice, 1) //Borra el registro.
@@ -306,7 +319,7 @@ function validarDatos(direccion, latitud, longitud, averiado, f_mantenimiento) {
 //Función que muestra la tabla de registros de semáforos.
 function mostrarTabla() {
   borrarNotificaciones()
-  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
+  borradoTabla()
   //Si existen semáforos.
   if (semaforos.length > 0) {
     document.getElementById('tabla').innerHTML =
@@ -351,7 +364,7 @@ function mostrarTabla() {
 //Función que carga los datos por defecto.
 function cargarDatosDefecto() {
   borrarNotificaciones()
-  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
+  borradoTabla()
   semaforos = new Array() //Inicializa el array de semáforos.
   cargaDatosXml(datosDefecto) //Carga datos por defecto.
 }
@@ -360,7 +373,7 @@ function cargarDatosDefecto() {
 //Función que permite la carga de datos procedente de un fichero xml.
 function cargarDatosFichero(evt) {
   borrarNotificaciones()
-  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
+  borradoTabla()
   semaforos = new Array() //Inicializa el array de semáforos.
   let ficheros = evt.target.files //Objeto FileList con la lista de archivos seleccionados (1 si no contiene el atributo multiple el <input type="file">).
   let fichero = ficheros[0] //Primer elemento del objeto FileList.
@@ -383,6 +396,13 @@ function cargarDatosFichero(evt) {
 }
 
 //--------------------------------------------------------------------------------------------------
+//Función que realiza el borrado del area de notificaciones.
 function borrarNotificaciones() {
   div_notificaciones.innerHTML = ''
+}
+
+//--------------------------------------------------------------------------------------------------
+//Fúnción que realiza el borrado de la tabla.
+function borradoTabla(){
+  document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
 }
