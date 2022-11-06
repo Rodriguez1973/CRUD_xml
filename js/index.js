@@ -8,7 +8,7 @@ let indice //Lleva el indice del array del objeto que estamos visualizando en la
 //-------------------------------------------------------------------------------------------------
 //Cuando finaliza la carga del documento se cargan los datos por defecto (datos.js).
 window.onload = () => {
-  cargaDatosXml(datosFichero)
+  cargaDatosXml(datosDefecto)
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -33,6 +33,7 @@ bModificar.addEventListener('click', registroModificar, false) //Evento click al
 bBorrar.addEventListener('click', registroBorrar, false) //Evento click al pulsar el botón borrar.
 bTabla.addEventListener('click', mostrarTabla, false)  //Evento click al pulsar el botón mostrar tabla.
 bDatos_defecto.addEventListener('click', cargarDatosDefecto, false) //Evento click al pulsar el botón datos por defecto.
+bFichero.addEventListener('change', cargarDatosFichero, false) //Evento click al pulsar el botón elegir fichero.
 
 //-------------------------------------------------------------------------------------------------
 //Clase que modela los objetos de tipo semáforo.
@@ -102,8 +103,7 @@ function cargaDatosXml(datos = null) {
   } catch (Exception) {
     indice = 0
     vaciarCampos()
-    notificaciones.innerHTML =
-      '<p>Los datos no se han cargado. Son erroneos o no existen</p>'
+    div_notificaciones.innerHTML = '<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
   }
 }
 
@@ -301,22 +301,45 @@ function mostrarTabla() {
     //Bucle que recorre todos los registos incorporando la fila a la table del documento.
     for (i = 0; i < semaforos.length; i++) {
       let semaforo = semaforos[i]
-      document.getElementById("tabla").innerHTML = document.getElementById("tabla").innerHTML+
-      '<tr><td>'+semaforo.id+'</td>' +
-      '<td>'+semaforo.direccion+'</td>' +
-      '<td>'+semaforo.latitud+'</td>' +
-      '<td>'+semaforo.longitud+'</td>' +
-      '<td>'+semaforo.averiado+'</td>' +
-      '<td>'+semaforo.f_mantenimiento+'</td></tr>'
+      document.getElementById("tabla").innerHTML = document.getElementById("tabla").innerHTML +
+        '<tr><td>' + semaforo.id + '</td>' +
+        '<td>' + semaforo.direccion + '</td>' +
+        '<td>' + semaforo.latitud + '</td>' +
+        '<td>' + semaforo.longitud + '</td>' +
+        '<td>' + semaforo.averiado + '</td>' +
+        '<td>' + semaforo.f_mantenimiento + '</td></tr>'
     }
   }
 }
 
 //--------------------------------------------------------------------------------------------------
 //Función que carga los datos por defecto.
-function cargarDatosDefecto(){
+function cargarDatosDefecto() {
   document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
-  semaforos=new Array() //Inicializa el array de semáforos.
-  cargaDatosXml(datosFichero);  //Carga datos por defecto.
-  mostrarMapa();
+  semaforos = new Array() //Inicializa el array de semáforos.
+  cargaDatosXml(datosDefecto);  //Carga datos por defecto.
+}
+
+//--------------------------------------------------------------------------------------------------
+//Función que permite la carga de datos procedente de un fichero xml.
+function cargarDatosFichero(evt) {
+  document.getElementById("tabla").innerHTML = "" //Inicializa el contenido de la tabla.
+  semaforos = new Array() //Inicializa el array de semáforos.
+  let datosFichero=leerFicheroXml(evt)
+  cargaDatosXml(datosFichero);  //Carga datos leídos de un fichero XML.
+}
+
+//--------------------------------------------------------------------------------------------------
+//Función que realiza la lectura de un fichero XML,
+function leerFicheroXml(evt) {
+  //Array que contine el 
+  let ficheros = evt.target.files;  //Objeto FileList con la lista de archivos seleccionados (1 si no contiene el atributo multiple el <input type="file">).
+  let fichero = ficheros[0];  //Primer elemento del objeto FileList.
+  //Crea el flujo de lectura.
+  let reader = new FileReader();
+  //Necesario para poder seleccionar otro fichero.
+  evt.target.value = ''
+  //Lee el fichero como texto.
+  let contenido=reader.readAsText(fichero)
+  return contenido
 }

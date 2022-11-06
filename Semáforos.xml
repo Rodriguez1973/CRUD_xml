@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semaforos>
+    <semaforo>
+        <direccion>C. Burgo de Osma, 6, 09400 Aranda de Duero, Burgos, España</direccion>
+        <latitud>41.669267928056804</latitud>
+        <longitud>-3.690499462241479</longitud>
+        <averiado>No</averiado>
+        <f_mantenimiento>1973-01-28</f_mantenimiento>
+    </semaforo>
+    <semaforo>
+        <direccion>Av. Luis Mateos, 41, 09400 Aranda de Duero, Burgos, España</direccion>
+        <latitud>41.66504934387495</latitud>
+        <longitud>-3.709288572406788</longitud>
+        <averiado>No</averiado>
+        <f_mantenimiento>1973-01-21</f_mantenimiento>
+    </semaforo>
+    <semaforo>
+        <direccion>Calle Diseminados, 642, 09400 Aranda de Duero, Burgos, España</direccion>
+        <latitud>41.67449778457714</latitud>
+        <longitud>-3.6958282029352385</longitud>
+        <averiado>Si</averiado>
+        <f_mantenimiento>1993-02-28</f_mantenimiento>
+    </semaforo>
+    <semaforo>
+        <direccion>C/ San Francisco, 51, 09400 Aranda de Duero, Burgos, España</direccion>
+        <latitud>41.67659361640238</latitud>
+        <longitud>-3.6856010448555665</longitud>
+        <averiado>No</averiado>
+        <f_mantenimiento>2003-03-28</f_mantenimiento>
+    </semaforo>
+</semaforos>
+
+       

@@ -29,7 +29,7 @@ function mostrarMapa() {
       url: "./images/Marcador_posicion.png", //Imagen del marcador de posición.
       scaledSize: new google.maps.Size(50, 50), //Tamaño escala.
       origin: new google.maps.Point(0, 0), //Origen imgen.
-      anchor: new google.maps.Point(0, 0) //Punto de anclaje
+      anchor: new google.maps.Point(25, 50) //Punto de anclaje
     }
 
     //-----------------------------------------------------------------------------------------------
