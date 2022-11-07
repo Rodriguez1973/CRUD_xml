@@ -121,7 +121,6 @@ function cargaDatosXml(datos = null) {
       )
       semaforos.push(semaforo) //Añade al semaforo al array
     }
-
     //Inicializa el indice de visualización.
     indice = 0
     //Muestra el indice 0 en la interfaz.
@@ -131,8 +130,8 @@ function cargaDatosXml(datos = null) {
   } catch (Exception) {
     indice = 0
     vaciarCampos()
-    div_notificaciones.innerHTML =
-      '<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
+    div_notificaciones.innerHTML ='<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
+    desactivaBotones()
   }
 }
 
@@ -216,7 +215,8 @@ function obtenerFechaActual() {
 function registroSiguiente() {
   borrarNotificaciones()
   borradoTabla()
-  if (grabar) {  //Si está grabando vuelve al indice que estaba previamente.
+  if (grabar) {
+    //Si está grabando vuelve al indice que estaba previamente.
     cambiarNuevo()
     visualiza(indice)
   } else {
@@ -242,7 +242,8 @@ function registroSiguiente() {
 function registroAnterior() {
   borrarNotificaciones()
   borradoTabla()
-  if (grabar) { //Si está grabando vuelve al indice que estaba previamente.
+  if (grabar) {
+    //Si está grabando vuelve al indice que estaba previamente.
     cambiarNuevo()
     visualiza(indice)
   } else {
@@ -268,26 +269,21 @@ function registroAnterior() {
 function registroModificar() {
   borrarNotificaciones()
   borradoTabla()
-  //Existen registros de semaforos.
-  if (semaforos.length > 0) {
-    try {
-      let semaforo = new Semaforo(
-        semaforos[indice].id,
-        iDireccion.value,
-        iLatitud.value,
-        iLongitud.value,
-        iAveriado.value,
-        iF_mantenimiento.value,
-      )
-      semaforos[indice] = semaforo //Actualiza la lista con las modificaciones del registro.
-      div_notificaciones.innerHTML =
-        '<p>El registro ha sido modificado correctamente.</p>'
-      visualiza(indice)
-    } catch (Exception) {
-      div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
-    }
-  } else {
-    div_notificaciones.innerHTML = '<p>No hay registros que modificar.</p>'
+  try {
+    let semaforo = new Semaforo(
+      semaforos[indice].id,
+      iDireccion.value,
+      iLatitud.value,
+      iLongitud.value,
+      iAveriado.value,
+      iF_mantenimiento.value,
+    )
+    semaforos[indice] = semaforo //Actualiza la lista con las modificaciones del registro.
+    div_notificaciones.innerHTML =
+      '<p>El registro ha sido modificado correctamente.</p>'
+    visualiza(indice)
+  } catch (Exception) {
+    div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
   }
 }
 
@@ -296,28 +292,24 @@ function registroModificar() {
 function registroBorrar() {
   borrarNotificaciones()
   borradoTabla()
-  //Existen registros.
-  if (semaforos.length > 0) {
-    semaforos.splice(indice, 1) //Borra el registro.
+  semaforos.splice(indice, 1) //Borra el registro.
+  try {
+    indice--
+    visualiza(indice) //Visualiza el indice anterior.
+    div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
+  } catch (Exception) {
+    //Si salta exception es que no existe el indice anterior.
     try {
-      indice--
-      visualiza(indice) //Visualiza el indice anterior.
+      indice++
+      visualiza(indice) //Visualiza el indice siguiente.
       div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
     } catch (Exception) {
-      //Si salta exception es que no existe el indice anterior.
-      try {
-        indice++
-        visualiza(indice) //Visualiza el indice siguiente.
-        div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
-      } catch (Exception) {
-        //Si salta exception es que tampoco existe el indice siguiente.
-        div_notificaciones.innerHTML =
-          '<p>Registro borrado correctamente. No quedan registros en la lista.</p>'
-        vaciarCampos()
-      }
+      //Si salta exception es que tampoco existe el indice siguiente.
+      div_notificaciones.innerHTML =
+        '<p>Registro borrado correctamente. No quedan registros en la lista.</p>'
+      vaciarCampos()
+      desactivaBotones()
     }
-  } else {
-    div_notificaciones.innerHTML = '<p>No hay elementos que borrar.</p>'
   }
 }
 
@@ -455,6 +447,8 @@ function borradoTabla() {
 function cambiarNuevo() {
   bNuevo.value = 'Nuevo'
   grabar = false
+  bSiguiente.disabled = false
+    bAnterior.disabled = false
   bModificar.disabled = false
   bBorrar.disabled = false
   bTabla.disabled = false
@@ -468,4 +462,17 @@ function inicilizarEntradas() {
   iLongitud.value = ''
   iAveriado.value = 'No'
   iF_mantenimiento.value = obtenerFechaActual()
+}
+
+//--------------------------------------------------------------------------------------------------
+//Función que desactiva todos los botones menos nuevo si no hay registros.
+function desactivaBotones() {
+  //Si hay registros en la lista.
+  if (semaforos.length <= 0) {
+    bSiguiente.disabled = true
+    bAnterior.disabled = true
+  }
+  bModificar.disabled = true
+  bBorrar.disabled = true
+  bTabla.disabled = true
 }
