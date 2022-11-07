@@ -24,8 +24,8 @@ const bTabla = document.getElementById('mostrar_tabla')
 const bDatos_defecto = document.getElementById('datos_defecto')
 const bFichero = document.getElementById('datos_fichero')
 const iDireccion = document.getElementById('iDireccion')
-const iLatitud = document.getElementById("iLatitud")
-const iLongitud = document.getElementById("iLongitud")
+const iLatitud = document.getElementById('iLatitud')
+const iLongitud = document.getElementById('iLongitud')
 const iAveriado = document.getElementById('iAveriado')
 const iF_mantenimiento = document.getElementById('iF_mantenimiento')
 
@@ -39,9 +39,27 @@ bBorrar.addEventListener('click', registroBorrar, false) //Evento click al pulsa
 bTabla.addEventListener('click', mostrarTabla, false) //Evento click al pulsar el botón mostrar tabla.
 bDatos_defecto.addEventListener('click', cargarDatosDefecto, false) //Evento click al pulsar el botón datos por defecto.
 bFichero.addEventListener('change', cargarDatosFichero, false) //Evento click al pulsar el botón elegir fichero.
-iDireccion.addEventListener('click', () => { iDireccion.select(); }, false) //Selecciona todo el contenido de iDireccion al hacer click.
-iLatitud.addEventListener('click', () => { iLatitud.select(); }, false) //Selecciona todo el contenido de iLatitud al hacer click.
-iLongitud.addEventListener('click', () => { iLongitud.select(); }, false) //Selecciona todo el contenido de iLongitud al hacer click.
+iDireccion.addEventListener(
+  'click',
+  () => {
+    iDireccion.select()
+  },
+  false,
+) //Selecciona todo el contenido de iDireccion al hacer click.
+iLatitud.addEventListener(
+  'click',
+  () => {
+    iLatitud.select()
+  },
+  false,
+) //Selecciona todo el contenido de iLatitud al hacer click.
+iLongitud.addEventListener(
+  'click',
+  () => {
+    iLongitud.select()
+  },
+  false,
+) //Selecciona todo el contenido de iLongitud al hacer click.
 
 //-------------------------------------------------------------------------------------------------
 //Clase que modela los objetos de tipo semáforo.
@@ -152,10 +170,11 @@ function guardarRegistro() {
     bModificar.disabled = true
     bBorrar.disabled = true
     bTabla.disabled = true
-    grabar = true;
-    bNuevo.value = "Guardar"
+    grabar = true
+    bNuevo.value = 'Guardar'
     vaciarCampos()
-  } else {  //Grabando.
+  } else {
+    //Grabando.
     try {
       //Crea semáforo.
       let semaforo = new Semaforo(
@@ -170,7 +189,8 @@ function guardarRegistro() {
       semaforos.push(semaforo)
       //Actualiza el indice del elemento que estamos visualizando.
       indice = semaforos.length - 1
-      div_notificaciones.innerHTML = '<p>El registro se ha guardado correctamente.</p>'
+      div_notificaciones.innerHTML =
+        '<p>El registro se ha guardado correctamente.</p>'
       visualiza(indice)
       cambiarNuevo()
     } catch (Exception) {
@@ -194,40 +214,52 @@ function obtenerFechaActual() {
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroSiguiente() {
-  if (grabar) { cambiarNuevo() };
   borrarNotificaciones()
   borradoTabla()
-  //Hay semáforos
-  if (semaforos.length > 0) {
-    indice++
-    if (indice < semaforos.length) {
-      visualiza(indice)
-    } else {
-      div_notificaciones.innerHTML = '<p>Es el último registro de la lista.</p>'
-      indice--
-    }
+  if (grabar) {  //Si está grabando vuelve al indice que estaba previamente.
+    cambiarNuevo()
+    visualiza(indice)
   } else {
-    div_notificaciones.innerHTML = '<p>No quedan registros en la lista.</p>'
+    //Hay semáforos
+    if (semaforos.length > 0) {
+      indice++
+      if (indice < semaforos.length) {
+        visualiza(indice)
+      } else {
+        div_notificaciones.innerHTML =
+          '<p>Es el último registro de la lista.</p>'
+        indice--
+        visualiza(indice)
+      }
+    } else {
+      div_notificaciones.innerHTML = '<p>No quedan registros en la lista.</p>'
+    }
   }
 }
 
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroAnterior() {
-  if (grabar) { cambiarNuevo() };
   borrarNotificaciones()
   borradoTabla()
-  //Hay semáforos
-  if (semaforos.length > 0) {
-    indice--
-    if (indice >= 0) {
-      visualiza(indice)
-    } else {
-      div_notificaciones.innerHTML = '<p>Es el primer registro de la lista.</p>'
-      indice++
-    }
+  if (grabar) { //Si está grabando vuelve al indice que estaba previamente.
+    cambiarNuevo()
+    visualiza(indice)
   } else {
-    div_notificaciones.innerHTML = '<p>No quedan registros en la lista.</p>'
+    //Hay semáforos
+    if (semaforos.length > 0) {
+      indice--
+      if (indice >= 0) {
+        visualiza(indice)
+      } else {
+        div_notificaciones.innerHTML =
+          '<p>Es el primer registro de la lista.</p>'
+        indice++
+        visualiza(indice)
+      }
+    } else {
+      div_notificaciones.innerHTML = '<p>No quedan registros en la lista.</p>'
+    }
   }
 }
 
@@ -278,7 +310,8 @@ function registroBorrar() {
         div_notificaciones.innerHTML = '<p>Registro borrado correctamente.</p>'
       } catch (Exception) {
         //Si salta exception es que tampoco existe el indice siguiente.
-        div_notificaciones.innerHTML = '<p>Registro borrado correctamente. No quedan registros en la lista.</p>'
+        div_notificaciones.innerHTML =
+          '<p>Registro borrado correctamente. No quedan registros en la lista.</p>'
         vaciarCampos()
       }
     }
@@ -419,11 +452,11 @@ function borradoTabla() {
 //--------------------------------------------------------------------------------------------------
 //Función que iniciliza bNuevo a su estado inicial.
 function cambiarNuevo() {
-  bNuevo.value = "Nuevo";
-  grabar = false;
-  bModificar.disabled = false;
-  bBorrar.disabled = false;
-  bTabla.disabled = false;
+  bNuevo.value = 'Nuevo'
+  grabar = false
+  bModificar.disabled = false
+  bBorrar.disabled = false
+  bTabla.disabled = false
 }
 
 //--------------------------------------------------------------------------------------------------
