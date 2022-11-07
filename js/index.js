@@ -5,6 +5,7 @@ Fecha: 05/11/2022
 let semaforos = new Array() //Crea un array para registrar los semáforos.
 let indice //Lleva el indice del array del objeto que estamos visualizando en la interfaz.
 let coordenadasValidas = true //Flag para controlar si las coordenadas son válidas con el fin de poner el marcador en el mapa.
+let grabar = false //Flag que controla si bNuevo ha cambiado a grabar.
 
 //-------------------------------------------------------------------------------------------------
 //Cuando finaliza la carga del documento se cargan los datos por defecto (datos.js).
@@ -22,7 +23,7 @@ const bBorrar = document.getElementById('borrar')
 const bTabla = document.getElementById('mostrar_tabla')
 const bDatos_defecto = document.getElementById('datos_defecto')
 const bFichero = document.getElementById('datos_fichero')
-const iDireccion= document.getElementById('iDireccion')
+const iDireccion = document.getElementById('iDireccion')
 const iLatitud = document.getElementById("iLatitud")
 const iLongitud = document.getElementById("iLongitud")
 const iAveriado = document.getElementById('iAveriado')
@@ -38,9 +39,9 @@ bBorrar.addEventListener('click', registroBorrar, false) //Evento click al pulsa
 bTabla.addEventListener('click', mostrarTabla, false) //Evento click al pulsar el botón mostrar tabla.
 bDatos_defecto.addEventListener('click', cargarDatosDefecto, false) //Evento click al pulsar el botón datos por defecto.
 bFichero.addEventListener('change', cargarDatosFichero, false) //Evento click al pulsar el botón elegir fichero.
-iDireccion.addEventListener('click',()=>{iDireccion.select();}, false) //Selecciona todo el contenido de iDireccion al hacer click.
-iLatitud.addEventListener('click',()=>{iLatitud.select();}, false) //Selecciona todo el contenido de iLatitud al hacer click.
-iLongitud.addEventListener('click',()=>{iLongitud.select();}, false) //Selecciona todo el contenido de iLongitud al hacer click.
+iDireccion.addEventListener('click', () => { iDireccion.select(); }, false) //Selecciona todo el contenido de iDireccion al hacer click.
+iLatitud.addEventListener('click', () => { iLatitud.select(); }, false) //Selecciona todo el contenido de iLatitud al hacer click.
+iLongitud.addEventListener('click', () => { iLongitud.select(); }, false) //Selecciona todo el contenido de iLongitud al hacer click.
 
 //-------------------------------------------------------------------------------------------------
 //Clase que modela los objetos de tipo semáforo.
@@ -120,11 +121,7 @@ function cargaDatosXml(datos = null) {
 //-------------------------------------------------------------------------------------------------
 //Función que vacía los campos si no se han leído datos.
 function vaciarCampos() {
-  iDireccion.value = ''
-  iLatitud.value = ''
-  iLongitud.value = ''
-  iAveriado.value = 'No'
-  iF_mantenimiento.value = obtenerFechaActual()
+  inicilizarEntradas()
   latitud = 41.670141205551865 //Latitud de inicio de centrado del mapa.
   longitud = -3.689933230224045 //Longitud de inicio de centrado del mapa.
   coordenadasValidas = false //Cambia flag para que no muestre el marcador en el mapa.
@@ -150,28 +147,34 @@ function visualiza(numRegistro) {
 function guardarRegistro() {
   borrarNotificaciones()
   borradoTabla()
-  try {
-    //Crea semáforo.
-    let semaforo = new Semaforo(
-      semaforos.length,
-      iDireccion.value,
-      iLatitud.value,
-      iLongitud.value,
-      iAveriado.value,
-      iF_mantenimiento.value,
-    )
-    //Añade el semáforo al array.
-    semaforos.push(semaforo)
-    //Actualiza el indice del elemento que estamos visualizando.
-    indice = semaforos.length - 1
-    div_notificaciones.innerHTML = '<p>El registro se ha guardado correctamente.</p>'
-    visualiza(indice)
-  } catch (Exception) {
-    div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
-    if (semaforos.length > 0) {
-      visualiza(0)
-    } else {
-      vaciarCampos()
+  //Si no ha cambiado a grabar.
+  if (!grabar) {
+    bModificar.disabled = true
+    bBorrar.disabled = true
+    bTabla.disabled = true
+    grabar = true;
+    bNuevo.value = "Guardar"
+    vaciarCampos()
+  } else {  //Grabando.
+    try {
+      //Crea semáforo.
+      let semaforo = new Semaforo(
+        semaforos.length,
+        iDireccion.value,
+        iLatitud.value,
+        iLongitud.value,
+        iAveriado.value,
+        iF_mantenimiento.value,
+      )
+      //Añade el semáforo al array.
+      semaforos.push(semaforo)
+      //Actualiza el indice del elemento que estamos visualizando.
+      indice = semaforos.length - 1
+      div_notificaciones.innerHTML = '<p>El registro se ha guardado correctamente.</p>'
+      visualiza(indice)
+      cambiarNuevo()
+    } catch (Exception) {
+      div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
     }
   }
 }
@@ -191,6 +194,7 @@ function obtenerFechaActual() {
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroSiguiente() {
+  if (grabar) { cambiarNuevo() };
   borrarNotificaciones()
   borradoTabla()
   //Hay semáforos
@@ -210,6 +214,7 @@ function registroSiguiente() {
 //-------------------------------------------------------------------------------------------------
 //Función para visualizar el registro siguiente.
 function registroAnterior() {
+  if (grabar) { cambiarNuevo() };
   borrarNotificaciones()
   borradoTabla()
   //Hay semáforos
@@ -365,6 +370,7 @@ function mostrarTabla() {
 //--------------------------------------------------------------------------------------------------
 //Función que carga los datos por defecto.
 function cargarDatosDefecto() {
+  cambiarNuevo()
   borrarNotificaciones()
   borradoTabla()
   semaforos = new Array() //Inicializa el array de semáforos.
@@ -374,6 +380,7 @@ function cargarDatosDefecto() {
 //--------------------------------------------------------------------------------------------------
 //Función que permite la carga de datos procedente de un fichero xml.
 function cargarDatosFichero(evt) {
+  cambiarNuevo()
   borrarNotificaciones()
   borradoTabla()
   semaforos = new Array() //Inicializa el array de semáforos.
@@ -405,6 +412,26 @@ function borrarNotificaciones() {
 
 //--------------------------------------------------------------------------------------------------
 //Fúnción que realiza el borrado de la tabla.
-function borradoTabla(){
+function borradoTabla() {
   document.getElementById('tabla').innerHTML = '' //Inicializa el contenido de la tabla.
+}
+
+//--------------------------------------------------------------------------------------------------
+//Función que iniciliza bNuevo a su estado inicial.
+function cambiarNuevo() {
+  bNuevo.value = "Nuevo";
+  grabar = false;
+  bModificar.disabled = false;
+  bBorrar.disabled = false;
+  bTabla.disabled = false;
+}
+
+//--------------------------------------------------------------------------------------------------
+//Función que iniciliza los datos de entrada.
+function inicilizarEntradas() {
+  iDireccion.value = ''
+  iLatitud.value = ''
+  iLongitud.value = ''
+  iAveriado.value = 'No'
+  iF_mantenimiento.value = obtenerFechaActual()
 }
