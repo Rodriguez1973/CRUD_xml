@@ -79,7 +79,7 @@ function leerDireccion(latlng) {
     geocoder.geocode({ latLng: latlng }, function (results, status) {
       //Si el status del objeto geocoder es OK.
       if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
+        if (results[0]) {
           //Mostramos la dirección
           mostrarDireccion(latlng, results[0].formatted_address)
         } else {
