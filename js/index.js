@@ -282,6 +282,7 @@ function registroModificar() {
       semaforos[indice] = semaforo //Actualiza la lista con las modificaciones del registro.
       div_notificaciones.innerHTML =
         '<p>El registro ha sido modificado correctamente.</p>'
+      visualiza(indice)
     } catch (Exception) {
       div_notificaciones.innerHTML = '<p>' + Exception + '</p>'
     }
