@@ -126,12 +126,14 @@ function cargaDatosXml(datos = null) {
     //Muestra el indice 0 en la interfaz.
     latitud = semaforos[0].latitud //Latitud de inicio de centrado del mapa.
     longitud = semaforos[0].longitud //Longitud de inicio de centrado del mapa.
+    notificar("Datos cargados correctamente")
     visualiza(indice)
   } catch (Exception) {
     indice = 0
     vaciarCampos()
     div_notificaciones.innerHTML ='<p>Los datos no se han cargado. Son erroneos o no existen.</p>'
     desactivaBotones()
+    notificar("Los datos no se han cargado. Son erroneos o no existen.")
   }
 }
 
